@@ -34,12 +34,12 @@
     <!-- Facebook automatically scrapes this. Go to https://developers.facebook.com/tools/debug/
         if you update and want to force Facebook to re-scrape. -->
 	<meta property="og:title" content="A Smooth Sea Never Made a Skilled SAILOR: Robust Imitation via Learning to Search" />
-	<meta property="og:description" content="TODO " />
+	<meta property="og:description" content="We introduce SAILOR, a method for learning to search from expert demonstrations. By learning world and reward models from demonstration data, we endow the agent with the ability to, at test time, reason about how to recover from mistakes. SAILOR consistently out-performs Diffusion Policies trained via behavioral cloning on 5-10x as much data." />
     <!-- Twitter automatically scrapes this. Go to https://cards-dev.twitter.com/validator?
         if you update and want to force Twitter to re-scrape. -->
-    <meta property="twitter:card"          content="TODO " />
+    <meta property="twitter:card"          content="We introduce SAILOR, a method for learning to search from expert demonstrations. By learning world and reward models from demonstration data, we endow the agent with the ability to, at test time, reason about how to recover from mistakes. SAILOR consistently out-performs Diffusion Policies trained via behavioral cloning on 5-10x as much data." />
     <meta property="twitter:title"         content="A Smooth Sea Never Made a Skilled SAILOR: Robust Imitation via Learning to Search" />
-    <meta property="twitter:description"   content="TODO " />
+    <meta property="twitter:description"   content="We introduce SAILOR, a method for learning to search from expert demonstrations. By learning world and reward models from demonstration data, we endow the agent with the ability to, at test time, reason about how to recover from mistakes. SAILOR consistently out-performs Diffusion Policies trained via behavioral cloning on 5-10x as much data." />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 </head>
@@ -106,12 +106,16 @@
     <!-- <div class="links"><a href="https://youtu.be/UATgep5bT8s"><i class="fa fa-play-circle" style="font-size: 50px; padding-bottom: 10px"></i><br>[Video]</a></div> -->
     <div class="links"><a href="https://github.com/arnavkj1995/SAILOR"><span class="icon"><i class="fa-brands fa-github fa-2xl"></i></span><br>Code</a></div>
 
-    <br><br>
-
-    <img style="width: 60%;" src="./resources/filter_ffig.svg" alt="Teaser figure."/>
     <br>
-    <p style="width: 80%;">
-      <br> TODO
+    <br>
+    <h1>$\texttt{SAILOR}$ ⛵: Searching Across Imagined Latents Online for Recovery</h1>
+
+    <!-- <img style="width: 60%;" src="./resources/filter_ffig.svg" alt="Teaser figure."/> -->
+    <br>
+    <p style="width: 82%; font-size: 20px;">
+      <br>TLDR: We introduce $\texttt{SAILOR}$, a method for <u><i>learning to search</i></u> from expert demonstrations. By
+      learning world and reward models from demonstration data, we endow the agent
+      with the ability to, at test time, reason about how to recover from mistakes. <b>$\texttt{SAILOR}$ <i><u>consistently out-performs Diffusion Policies trained via behavioral cloning on 5-10x as much data.</u></i>
     </p>
     <hr>
 
@@ -137,31 +141,22 @@
     <br>
     <hr>
 
-    <h1>Video</h1>
-    <div class="video-container">
-        <iframe src="https://www.youtube.com/embed/UATgep5bT8s" frameBorder="0"
-                allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-                allowfullscreen></iframe>
-    </div>
-    <br>
 
+    <h1>$\texttt{SAILOR}$ ⛵ Avoids Mistakes Diffusion Policy Makes</h1>
+    <br>
     <hr>
 
-    <h1>Key Insights</h1>
+    <h1>$\texttt{SAILOR}$ ⛵ Can Identify And Recover from Nuanced Failures</h1>
+    <br>
+    <hr>
 
-    <h2>1. Inverse RL is Slow Because of RL</h2>
-    <p style="width: 80%;">Usually in inverse RL, an adversary picks a reward function that maximally distinguishes learner and expert samples in an outer loop and the learner optimizes this reward function in the inner loop via reinforcement learning. While inverse RL comes with strong guaratees w.r.t. compounding errors, each inner loop iteration requires solving a problem that could take a number of interactions with the environment that is exponential in the task horizon. For example, if the learner is operating in a tree structured MDP and the adversary picks a reward function that is 0 everywhere except for one of the leaf nodes, the learner needs to explore the entire tree in every inner loop iteration.</p>
+    <h1>$\texttt{SAILOR}$ ⛵ Out-Performs Diffusion Policies Trained on 5-10x Data </h1>
+    <br>
+    <hr>
 
-    <h2>2. Expert Resets Can Speed Up RL </h2>
-    <p style="width: 80%;">The reduction of imitation learning to repeated reinforcement learning is ignoring a key piece of information: given our goal is to imitate the expert, the learner should only have to compete against policies with similar visitation distributions to that of the expert. A simple way to implement this insight is to change the learner's start-state distribution to be the expert's visitation distribution during reinforcement learning. This makes it so that the learner wastes fewer environment interactions exploring parts of the state space that the expert never visits. We prove that doing so allows us to derive the first polynomial time algorithms for inverse RL, an exponential speedup. We call them <code>MMDP</code> (moment-matching by dynamic programming) and <code>NRMM</code> (no-regret moment matching).</p>
-
-    <h2>3. Interpolated Practical Procedure</h2>
-    <p style="width: 80%;">However, in the worst case, performing expert resets can introduce compounding errors (though in far fewer circumstances than a completely offline approach like behavioral cloning). To hedge against this possibility, we propose interpolating (either over the course of training or within a single policy optimization step) between standard inverse RL and one of our algorithms. Interpolation allows the learner to quickly settle on a roughly correct policy and the fine-tune it via RL. We call these interpolated approaches <code>FILTER</code> (fast inverted loop training via expert resets).</p>
-        <p style="width: 80%;"> In practice, we observe a remarkable speedup on problems on which exploration is hard (e.g. mazes) -- compare our approaches in teal/orange to standard inverse RL in grey. </p>
-        <img style="width: 40%;" src="./resources/antmaze_results.png"/>
-        <p style="width: 80%;">We also see moderate speedups on tasks like locomotion. Importantly, this strategy can be combined with any off-the-shelf IRL approach for faster learning. We release all of our code at the link below.</p>
-        <div class="links"><a href="https://github.com/arnavkj1995/SAILOR"><span class="icon"><i class="fa-brands fa-github fa-2xl"></i></span><br>Code</a></div>
-        <hr>
+    <h1>$\texttt{SAILOR}$ ⛵ is Robust to Reward Hacking </h1>
+    <br>
+    <hr>
 
     <h1>Paper</h1>
     <div class="paper-thumbnail">
