@@ -39,8 +39,8 @@ table { border-spacing:0 }
 
 .author {
     width: 95%;
-    max-width: 200px;
-    font-size: 20px;
+    max-width: 250px;
+    font-size: 25px;
 }
 
 .affiliation {
