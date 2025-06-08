@@ -44,9 +44,9 @@ table { border-spacing:0 }
 }
 
 .affiliation {
-    font-size: 22px;
+    font-size: 21px;
     width: 95%;
-    max-width: 350px;
+    max-width: 300px;
 }
 
 .links {
