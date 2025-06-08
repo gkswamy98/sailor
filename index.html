@@ -1,0 +1,165 @@
+<script src="http://www.google.com/jsapi" type="text/javascript"></script>
+<script type="text/javascript">google.load("jquery", "1.3.2");</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+        inlineMath: [['$','$']]
+      }
+    });
+  </script>
+  <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script> 
+<link href="https://fonts.googleapis.com/css2?family=Lato&display=swap"
+      rel="stylesheet">
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="./resources/style.css" media="screen"/>
+
+<html lang="en">
+<head>
+	<title>Inverse Reinforcement Learning without Reinforcement Learning</title>
+    <!-- Facebook automatically scrapes this. Go to https://developers.facebook.com/tools/debug/
+        if you update and want to force Facebook to re-scrape. -->
+	<meta property="og:title" content="Inverse Reinforcement Learning without Reinforcement Learning" />
+	<meta property="og:description" content="Inverse reinforcement learning approaches reduce the problem of imitation learning to repeatedly solving a computationally expensive reinforcement learning problem. We prove and empirically validate that resetting the learner to states from the expert's state distribution during the reinforcement learning subroutine allows us match expert performance exponentially faster. " />
+    <!-- Twitter automatically scrapes this. Go to https://cards-dev.twitter.com/validator?
+        if you update and want to force Twitter to re-scrape. -->
+    <meta property="twitter:card"          content="Inverse reinforcement learning approaches reduce the problem of imitation learning to repeatedly solving a computationally expensive reinforcement learning problem. We prove and empirically validate that resetting the learner to states from the expert's state distribution during the reinforcement learning subroutine allows us match expert performance exponentially faster. " />
+    <meta property="twitter:title"         content="Inverse Reinforcement Learning without Reinforcement Learning" />
+    <meta property="twitter:description"   content="Inverse reinforcement learning approaches reduce the problem of imitation learning to repeatedly solving a computationally expensive reinforcement learning problem. We prove and empirically validate that resetting the learner to states from the expert's state distribution during the reinforcement learning subroutine allows us match expert performance exponentially faster. " />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+</head>
+
+<body>
+<div class="container">
+    <div class="title">
+        Inverse Reinforcement Learning <br> without Reinforcement Learning
+    </div>
+
+    <div class="venue">
+        ICML '23
+    </div>
+
+    <br><br>
+
+    <div class="author">
+        <a href="https://gokul.dev/">Gokul Swamy</a><sup>1</sup>
+    </div>
+    <div class="author">
+        <a href="http://www.sanjibanchoudhury.com/">Sanjiban Choudhury</a><sup>2</sup>
+    </div>
+    <div class="author">
+        <a href="https://www.ri.cmu.edu/ri-people/j-andrew-drew-bagnell/">Drew Bagnell</a><sup>3, 1</sup>
+    </div>
+    <div class="author">
+        <a href="https://zstevenwu.com/">Steven Wu</a><sup>1</sup>
+    </div>
+
+    <br><br>
+
+    <div class="affiliation"><sup>1&nbsp;</sup>CMU</div>
+    <div class="affiliation"><sup>2&nbsp;</sup>Cornell University</div>
+    <div class="affiliation"><sup>3&nbsp;</sup>Aurora Innovation</div>
+    
+
+    <br><br>
+
+    <div class="links"><a href="https://arxiv.org/pdf/2303.14623.pdf"><i class="fa fa-file-text", style="font-size: 50px; padding-bottom: 10px"></i><br>[Paper]</a></div>
+    <div class="links"><a href="https://youtu.be/UATgep5bT8s"><i class="fa fa-play-circle" style="font-size: 50px; padding-bottom: 10px"></i><br>[Video]</a></div>
+    <div class="links"><a href="https://github.com/gkswamy98/fast_irl"><i class="fa fa-github" style="font-size: 50px; padding-bottom: 10px"></i><br>[Code]</a></div>
+
+    <br><br>
+
+    <img style="width: 60%;" src="./resources/filter_ffig.svg" alt="Teaser figure."/>
+    <br>
+    <p style="width: 80%;">
+      <br> Inverse reinforcement learning approaches reduce the problem of imitation learning to repeatedly solving a computationally expensive reinforcement learning problem. We prove and empirically validate that resetting the learner to states from the expert's state distribution during the reinforcement learning subroutine allows us match expert performance exponentially faster. 
+    </p>
+    <hr>
+
+    <h1>Abstract</h1>
+    <p style="width: 80%;">
+	    Inverse Reinforcement Learning (IRL) is a powerful set of techniques for imitation learning that
+aims to learn a reward function that rationalizes
+expert demonstrations. Unfortunately, traditional
+IRL methods suffer from a computational weakness: they require repeatedly solving a hard reinforcement learning (RL) problem as a subroutine.
+This is counter-intuitive from the viewpoint of
+reductions: we have reduced the <i>easier</i> problem
+of imitation learning to repeatedly solving the
+<i>harder</i> problem of RL. Another thread of work
+has proved that access to the side-information of
+the distribution of states where a strong policy
+spends time can dramatically reduce the sample
+and computational complexities of solving an RL
+problem. In this work, we demonstrate for the first
+time a more informed imitation learning reduction
+where we utilize the state distribution of the expert to alleviate the global exploration component
+of the RL subroutine, providing an <i>exponential
+speedup</i> in theory. In practice, we find that we
+are able to significantly speed up the prior art on
+continuous control tasks.
+    </p>
+    <br>
+    <hr>
+
+    <h1>Video</h1>
+    <div class="video-container">
+        <iframe src="https://www.youtube.com/embed/UATgep5bT8s" frameBorder="0"
+                allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen></iframe>
+    </div>
+    <br>
+
+    <hr>
+
+    <h1>Key Insights</h1>
+
+    <h2>1. Inverse RL is Slow Because of RL</h2>
+    <p style="width: 80%;">Usually in inverse RL, an adversary picks a reward function that maximally distinguishes learner and expert samples in an outer loop and the learner optimizes this reward function in the inner loop via reinforcement learning. While inverse RL comes with strong guaratees w.r.t. compounding errors, each inner loop iteration requires solving a problem that could take a number of interactions with the environment that is exponential in the task horizon. For example, if the learner is operating in a tree structured MDP and the adversary picks a reward function that is 0 everywhere except for one of the leaf nodes, the learner needs to explore the entire tree in every inner loop iteration.</p>
+
+    <h2>2. Expert Resets Can Speed Up RL </h2>
+    <p style="width: 80%;">The reduction of imitation learning to repeated reinforcement learning is ignoring a key piece of information: given our goal is to imitate the expert, the learner should only have to compete against policies with similar visitation distributions to that of the expert. A simple way to implement this insight is to change the learner's start-state distribution to be the expert's visitation distribution during reinforcement learning. This makes it so that the learner wastes fewer environment interactions exploring parts of the state space that the expert never visits. We prove that doing so allows us to derive the first polynomial time algorithms for inverse RL, an exponential speedup. We call them <code>MMDP</code> (moment-matching by dynamic programming) and <code>NRMM</code> (no-regret moment matching).</p>
+
+    <h2>3. Interpolated Practical Procedure</h2>
+    <p style="width: 80%;">However, in the worst case, performing expert resets can introduce compounding errors (though in far fewer circumstances than a completely offline approach like behavioral cloning). To hedge against this possibility, we propose interpolating (either over the course of training or within a single policy optimization step) between standard inverse RL and one of our algorithms. Interpolation allows the learner to quickly settle on a roughly correct policy and the fine-tune it via RL. We call these interpolated approaches <code>FILTER</code> (fast inverted loop training via expert resets).</p>
+        <p style="width: 80%;"> In practice, we observe a remarkable speedup on problems on which exploration is hard (e.g. mazes) -- compare our approaches in teal/orange to standard inverse RL in grey. </p>
+        <img style="width: 40%;" src="./resources/antmaze_results.png"/>
+        <p style="width: 80%;">We also see moderate speedups on tasks like locomotion. Importantly, this strategy can be combined with any off-the-shelf IRL approach for faster learning. We release all of our code at the link below.</p>
+        <a href="https://github.com/gkswamy98/fast_irl"><i class="fa fa-github" style="font-size: 50px; padding-bottom: 10px"></i><br>[Code]</a>
+      <hr>
+
+    <h1>Paper</h1>
+    <div class="paper-thumbnail">
+        <a href="https://arxiv.org/pdf/2303.14623.pdf">
+            <img class="layered-paper-big" width="100%" src="./resources/paper.svg" alt="Paper thumbnail"/>
+        </a>
+    </div>
+    <div class="paper-info">
+        <h3>Inverse Reinforcement Learning without Reinforcement Learning</h3>
+        <p>Gokul Swamy, David Wu, Sanjiban Choudhury, J. Andrew Bagnell, Zhiwei Steven Wu</p>
+        <pre><code>@misc{swamy2023inverse,
+    title = {Inverse Reinforcement Learning without Reinforcement Learning},
+    author = {Gokul Swamy and David Wu and Sanjiban Choudhury and J. Andrew Bagnell and Zhiwei Steven Wu},
+    year = {2023},
+    booktitle = {International Conference on Machine Learning},
+}</code></pre>
+    </div>
+
+    <br>
+    <hr>
+
+    <h1>Acknowledgements</h1>
+    <p style="width: 80%;">
+        This template was originally made by <a href="http://web.mit.edu/phillipi/">Phillip Isola</a>
+        and <a href="http://richzhang.github.io/">Richard Zhang</a> for a
+        <a href="http://richzhang.github.io/colorization/">colorful</a> ECCV project, and
+        adapted to be mobile responsive by <a href="https://github.com/jasonyzhang/webpage-template">Jason Zhang</a>.
+        The code we built on can be found <a href="https://github.com/elliottwu/webpage-template">here</a>.
+    </p>
+
+    <br>
+</div>
+
+</body>
+
+</html>
