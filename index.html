@@ -139,25 +139,22 @@
 
     <h1>Abstract</h1>
     <p style="width: 80%;">
-	    Inverse Reinforcement Learning (IRL) is a powerful set of techniques for imitation learning that
-aims to learn a reward function that rationalizes
-expert demonstrations. Unfortunately, traditional
-IRL methods suffer from a computational weakness: they require repeatedly solving a hard reinforcement learning (RL) problem as a subroutine.
-This is counter-intuitive from the viewpoint of
-reductions: we have reduced the <i>easier</i> problem
-of imitation learning to repeatedly solving the
-<i>harder</i> problem of RL. Another thread of work
-has proved that access to the side-information of
-the distribution of states where a strong policy
-spends time can dramatically reduce the sample
-and computational complexities of solving an RL
-problem. In this work, we demonstrate for the first
-time a more informed imitation learning reduction
-where we utilize the state distribution of the expert to alleviate the global exploration component
-of the RL subroutine, providing an <i>exponential
-speedup</i> in theory. In practice, we find that we
-are able to significantly speed up the prior art on
-continuous control tasks.
+        The fundamental limitation of the behavioral cloning (BC) approach to imitation learning
+        is that it only teaches an agent what the expert did at states the expert visited. This
+        means that when a BC agent makes a mistake which takes them out of the support of the demonstrations,
+        they often don't know how to recover from it. In this sense, BC is akin to <i>giving the agent the fish</i>
+        -- giving them dense supervision across a narrow set of states -- rather than teaching them <i>to fish</i>:
+        to be able to reason independently about achieving the expert's outcome even when faced with unseen situations
+        at test-time. In response, we explore <i>learning to search</i> (L2S) from expert demonstrations, i.e. learning
+        the components required to, at test time, plan to match expert outcomes, even after making a mistake. These
+        include <i>(1)</i> a world model and <i>(2)</i> a reward model. We carefully ablate the set of algorithmic
+        and design decisions required to combine these and other components for stable and
+        sample/interaction-efficient learning of recovery behavior without additional human corrections.
+        Across a dozen visual manipulation tasks from three benchmarks, our approach
+        $\texttt{SAILOR}$ consistently out-performs state-of-the-art Diffusion Policies trained via BC on
+        the same data. Furthermore, scaling up the amount of demonstrations used for BC by 5-10$\times$
+        still leaves a performance gap. We find that $\texttt{SAILOR}$ can identify nuanced failures and
+        is robust to reward hacking. 
     </p>
     <br>
     <hr>
