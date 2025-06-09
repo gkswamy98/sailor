@@ -137,7 +137,7 @@
     <br>
     <h1>$\texttt{SAILOR}$ ⛵: Searching Across Imagined Latents Online for Recovery</h1>
 
-    <!-- <img style="width: 60%;" src="./resources/filter_ffig.svg" alt="Teaser figure."/> -->
+    <video style="width: 90%" id="vid1" class="vid" src="./resources/sailor_method_cropped.mov" autoplay muted></video>
     <p style="width: 82%; font-size: 20px;">
       <br>TLDR: We introduce $\texttt{SAILOR}$, a method for <u><i>learning to search</i></u> from expert demonstrations. By
       learning world and reward models from demonstration data, we endow the agent
@@ -164,10 +164,33 @@
         still leaves a performance gap. We find that $\texttt{SAILOR}$ can identify nuanced failures and
         is robust to reward hacking. 
     </p>
+
+    <div class="wavy-line"></div>
+
+    <h1>$\texttt{SAILOR}$ Architecture: Learning to Search</h1>
+    <p style="width: 80%;">
+       The $\texttt{SAILOR}$ architecture consists of three key components:
+        <ul style="width: 80%; margin: auto; text-align: left;">
+            <li>Base Policy $\pi^{\textsf{base}}$: An arbitrary base policy (e.g. a VLA) capable of producing multi-step plans. We use a Diffusion Policy in our experiments due to our focus on precise, long-horizon visual manipulation problems.</li>
+            <li>World Model $\texttt{WM}$: A dynamics model capable of predicting future consequences -- we use the Dreamer architecture. Critically, the world model is trained on a mixture of demonstration data and base-policy rollouts, <a href="https://gokul.dev/hyper/">which gives our approach strong guarantees.</a> </li>
+            <li>Reward Model $\texttt{RM}$: A latent-space reward model trained to differentiate between expert demonstrations and base-policy rollouts -- no ground-truth reward labels required! A high score under such a reward model <a href="https://gokul.dev/mmil/">provably avoids compounding errors.</a> </li>
+        </ul>
+    </p>
+    <p style="width: 80%;">
+        At test time, $\texttt{SAILOR}$ performs a local search around the base policy's $\pi^{\textsf{base}}$ nominal plan.
+        It performs this search inside the learned world model $\texttt{WM}$ and against the learned reward model $\texttt{RM}$.
+        We use the Model-Predictive Path Integral (MPPI) algorithm to perform this search, before executing the first step of the plan, MPC style. More formally, we solve the following problem at each timestep:
+     </p>
+    $$ \Delta^{*}_{t:t+k} = \arg\max_{\Delta_{t:t+k}} \mathbb{E}_{z_t \sim \texttt{WM}(z_{t-1}, a_{t-1})}\left[\sum_{h=0}^{k-1} \gamma^h \texttt{RM}(z_{t+h}) +\gamma^k\texttt{V}(z_{t+k}) \bigg \vert o_t, a_{t:t+k} = a^{\textsf{base}}_{t:t+k} + \Delta_{t:t+k} \right].$$
+    <p style="width: 80%;">
+        We then execute the first of these actions, $a^{\textsf{base}}_{t}+\Delta_{t}^{\star}$, in the environment before re-planning on top of the fresh observation $o_{t+1}$.
+        Observe that we can train all of these components from demonstrations alone, just like behavioral cloning. In short, $\texttt{SAILOR}$ <i>learns to search</i> without <i>any</i> additional human feedback (e.g. DAgger-style corrections) or ground-truth reward labels.
+        It then searches at test-time to correct errors that the base policy would have made. One can then <i>distill</i> these corrected plans into the base policy.
+    </p>
     <div class="wavy-line"></div>
 
     
-    <h1>$\texttt{SAILOR}$ Avoids Mistakes Diffusion Policy Makes</h1>
+    <h1>$\texttt{SAILOR}$ Avoids Mistakes Without Additional Human Feedback</h1>
     <p style="width: 80%;">
         Across a dozen complex visual manipulation tasks, we find that $\texttt{SAILOR}$ is able to avoid mistakes that the base Diffusion Policy makes
          without <i>any</i> additional demonstrations, DAgger-style corrections, or ground-truth reward labels. $\texttt{SAILOR}$ outperforms
@@ -264,7 +287,7 @@
       }
     </script>
     <p style="width: 80%;">
-        This reflects the fact that learning to search algorithms like $\texttt{SAILOR}$ are able to take advantage of <a href="https://arxiv.org/abs/2503.01067"><i>generation-verification gaps</i></a> for more sample-efficient learning as they learn reward models ( <i>verifiers</i> ) rather than policies ( <i>generators</i> ).
+        This reflects the fact that learning to search algorithms like $\texttt{SAILOR}$ are able to take advantage of <a href="https://arxiv.org/abs/2503.01067"><i>generation-verification gaps</i></a> for more sample-efficient learning as they learn reward models (i.e. <i>verifiers</i> ) in addition to policies (i.e. <i>generators</i> ).
     </p> 
     <div class="wavy-line"></div>
 
