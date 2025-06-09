@@ -138,6 +138,16 @@
     <h1>$\texttt{SAILOR}$ ⛵: Searching Across Imagined Latents Online for Recovery</h1>
 
     <video style="width: 90%" id="vid1" class="vid" src="./resources/sailor_method_cropped.mov" autoplay muted></video>
+    <script>
+        var vid1 = document.getElementById('vid1');
+        vid1.addEventListener('ended', captureFrame);
+    
+        function captureFrame(e) {
+          var lastFrame = this.duration;
+          this.currentTime = lastFrame;
+          this.pause();
+        }
+      </script>
     <p style="width: 82%; font-size: 20px;">
       <br>TLDR: We introduce $\texttt{SAILOR}$, a method for <u><i>learning to search</i></u> from expert demonstrations. By
       learning world and reward models from demonstration data, we endow the agent
@@ -167,7 +177,7 @@
 
     <div class="wavy-line"></div>
 
-    <h1>$\texttt{SAILOR}$ Architecture: Learning to Search</h1>
+    <h1>$\texttt{SAILOR}$ Architecture: <i>Learning to Search</i></h1>
     <p style="width: 80%;">
        The $\texttt{SAILOR}$ architecture consists of three key components:
         <ul style="width: 80%; margin: auto; text-align: left;">
