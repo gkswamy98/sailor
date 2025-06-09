@@ -24,9 +24,36 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script defer src="./static/js/all.min.js"></script>
-<script src="./static/js/bulma-carousel.min.js"></script>
-<script src="./static/js/bulma-slider.min.js"></script>
+<!-- <script src="./static/js/bulma-carousel.min.js"></script>
+<script src="./static/js/bulma-slider.min.js"></script> -->
 <script src="./static/js/index.js"></script>
+
+<!-- <link rel="stylesheet" href="https://www.w3schools.com/w3css/5/w3.css"> -->
+<style>
+.mySlides {display:none}
+.w3-left, .w3-right, .w3-badge {cursor:pointer}
+.w3-badge {height:13px;width:13px;padding:0}
+.w3-content,.w3-auto{margin-left:auto;margin-right:auto}.w3-content{max-width:980px}.w3-auto{max-width:1140px}
+.w3-container:after,.w3-container:before,.w3-panel:after,.w3-panel:before,.w3-row:after,.w3-row:before,.w3-row-padding:after,.w3-row-padding:before,
+.w3-container,.w3-panel{padding:0.01em 16px}.w3-panel{margin-top:16px;margin-bottom:16px}
+.w3-tooltip,.w3-display-container{position:relative}.w3-tooltip .w3-text{display:none}.w3-tooltip:hover .w3-text{display:inline-block}
+.w3-display-container:hover .w3-display-hover{display:block}.w3-display-container:hover span.w3-display-hover{display:inline-block}.w3-display-hover{display:none}
+.w3-bar{width:100%;overflow:hidden}.w3-center .w3-bar{display:inline-block;width:auto}
+.w3-bar-block.w3-center .w3-bar-item{text-align:center}.w3-block{display:block;width:100%}
+.w3-left-align{text-align:left!important}.w3-right-align{text-align:right!important}.w3-justify{text-align:justify!important}.w3-center{text-align:center!important}
+.w3-section,.w3-code{margin-top:16px!important;margin-bottom:16px!important}
+.w3-tiny{font-size:10px!important}.w3-small{font-size:12px!important}.w3-medium{font-size:15px!important}.w3-large{font-size:36px!important}
+.w3-text-white,.w3-hover-text-white:hover{color:#4072AF!important}
+.w3-display-bottommiddle{position:absolute;left:50%;bottom:0;transform:translate(-50%,0%);-ms-transform:translate(-50%,0%)}
+.w3-left{float:left!important}.w3-right{float:right!important}
+.w3-text-khaki,.w3-hover-text-khaki:hover{color:#4072AF!important}
+.w3-badge,.w3-tag{background-color:#000;color:#4072AF;display:inline-block;text-align:center}.w3-badge{border-radius:50%}
+.w3-border-0{border:0!important}.w3-border{border:1px solid #4072AF!important}
+.w3-transparent,.w3-hover-none:hover{background-color:transparent!important}
+.w3-white,.w3-hover-white:hover{color:#000!important;background-color:#4072AF!important}
+</style>
+
+
 
 <html lang="en">
 <head>
@@ -141,6 +168,56 @@
 
     
     <h1>$\texttt{SAILOR}$ Avoids Mistakes Diffusion Policy Makes</h1>
+    <p style="width: 80%;">
+        Across a dozen complex visual maniulation tasks, we find that $\texttt{SAILOR}$ is able to recover from mistakes that the base Diffusion Policy makes
+         without <i>any</i> additional demonstrations, DAgger-style corrections, or ground-truth reward labels. $\texttt{SAILOR}$ outperforms
+         Diffusion Policies trained via behavioral cloning across all twelve tasks and three dataset scales considered.
+    </p>
+      <div class="w3-content w3-display-container" style="max-width:800px">
+        <video style="width: 100%" id="vid1" class="mySlides" src="./resources/liftpeg_comparison.mov" autoplay muted loop></video>
+        <video style="width: 100%" id="vid1" class="mySlides" src="./resources/liftpeg_comparison.mov" autoplay muted loop></video>
+        <video style="width: 100%" id="vid1" class="mySlides" src="./resources/liftpeg_comparison.mov" autoplay muted loop></video>
+        <br>
+        <br>
+        <div class="w3-center w3-container w3-section w3-large w3-text-white w3-display-bottommiddle" style="width:100%">
+          <div class="w3-left w3-hover-text-khaki" onclick="plusDivs(-1)">&#10094;</div>
+          <div class="w3-right w3-hover-text-khaki" onclick="plusDivs(1)">&#10095;</div>
+          <span class="w3-badge demo w3-border w3-transparent w3-hover-white" onclick="currentDiv(1)"></span>
+          <span class="w3-badge demo w3-border w3-transparent w3-hover-white" onclick="currentDiv(2)"></span>
+          <span class="w3-badge demo w3-border w3-transparent w3-hover-white" onclick="currentDiv(3)"></span>
+        </div>
+      </div>
+      
+      <script>
+      var slideIndex = 1;
+      showDivs(slideIndex);
+      
+      function plusDivs(n) {
+        showDivs(slideIndex += n);
+      }
+      
+      function currentDiv(n) {
+        showDivs(slideIndex = n);
+      }
+      
+      function showDivs(n) {
+        var i;
+        var x = document.getElementsByClassName("mySlides");
+        var dots = document.getElementsByClassName("demo");
+        if (n > x.length) {slideIndex = 1}
+        if (n < 1) {slideIndex = x.length}
+        for (i = 0; i < x.length; i++) {
+          x[i].style.display = "none";  
+        }
+        for (i = 0; i < dots.length; i++) {
+          dots[i].className = dots[i].className.replace(" w3-white", "");
+        }
+        x[slideIndex-1].style.display = "block";  
+        dots[slideIndex-1].className += " w3-white";
+      }
+      </script>
+
+ 
     <div class="wavy-line"></div>
 
 
@@ -149,10 +226,54 @@
 
 
     <h1>$\texttt{SAILOR}$ Out-Performs Diffusion Policies Trained on 5-10x Data </h1>
+    <p style="width: 80%;">
+        A natural question after viewing the preceding results might be as to whether more demonstrations could close the
+        performance gap between $\texttt{SAILOR}$ and Diffusion Policies. To answer this, we scale up the number of demonstrations
+        used for behavioral cloning by 5-10$\times$. We find that even with this significant increase in data, Diffusion Policies still do not match the performance of $\texttt{SAILOR}$.
+        While Diffusion Policies do improve with more data, we find that their performance plateaus before they match $\texttt{SAILOR}$'s performance.
+    </p>
+    <video style="width: 75%" id="vid1" class="vid" src="./resources/sailor_scaling.mov" autoplay muted></video>
+    <script>
+      var vid1 = document.getElementById('vid1');
+      vid1.addEventListener('ended', captureFrame);
+  
+      function captureFrame(e) {
+        var lastFrame = this.duration;
+        this.currentTime = lastFrame;
+        this.pause();
+      }
+    </script>
+    <p style="width: 80%;">
+        This reflects the fact that learning to search algorithms like $\texttt{SAILOR}$ are able to take advantage of <a href="https://arxiv.org/abs/2503.01067"><i>generation-verification gaps</i></a> for more sample-efficient learning as they learn reward models ( <i>verifiers</i> ) rather than policies ( <i>generators</i> ).
+    </p> 
     <div class="wavy-line"></div>
 
 
-    <h1>$\texttt{SAILOR}$ is Robust to Reward Hacking </h1>
+    <h1>$\texttt{SAILOR}$ Scales Robustly at Test-Time </h1>
+    <p style="width: 80%;">
+        A perennial concern with test-time scaling approaches is <i>reward hacking</i> -- the possibility that the agent
+        optimizes the learned proxy reward to the point that it no longer correlates with the true task objective. To ablate
+        how robust $\texttt{SAILOR}$ is to reward hacking, we perform an experiment where we scale up the number of samples
+        used for MPPI, which is analogous to scaling $N$ in Best-Of-N
+        <ul style="width: 80%; margin: auto; text-align: left;">
+            <li>Up to the number of samples used during training (2E8), we see more test-time compute lead to better performance.</li>
+            <li>Increasing the number of samples by 8x from the number seen during training does not degrade $\texttt{SAILOR}$'s performance.</li>
+          </ul> <br>
+    </p>
+    <video style="width: 85%" id="vid1" class="vid" src="./resources/sailor_tts.mov" autoplay muted></video>
+    <script>
+      var vid1 = document.getElementById('vid1');
+      vid1.addEventListener('ended', captureFrame);
+  
+      function captureFrame(e) {
+        var lastFrame = this.duration;
+        this.currentTime = lastFrame;
+        this.pause();
+      }
+    </script>
+    <p style="width: 80%;">
+        Put together, these results tell us that an interesting direction for future work that builds on the $\texttt{SAILOR}$ stack is to <i>adaptively</i> allocate compute at test-time to reason about recovery behavior only when the base policy is likely to make a mistake.
+    </p> 
     <div class="wavy-line"></div>
 
 

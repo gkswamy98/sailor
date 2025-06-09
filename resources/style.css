@@ -141,6 +141,11 @@ div {
 
 /* Alternative */
 
+video {
+    display: block;
+    margin: auto;
+  }
+
 hr {
     margin: 1rem 0 1.5rem;
     border: 0;
@@ -153,8 +158,8 @@ hr {
     --s: 30px; /* size of the wave */
     --b: 5px; /* thickness of the line */
     --m: 2.0; /* curvature of the wave [0 2] */
-    margin:-40px;
-    padding:-40px;
+    margin:-20px;
+    padding:-20px;
     
     background: #e1e9f4;
     background-image: linear-gradient(to right, #fff, #e1e9f4, #fff);
