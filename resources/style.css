@@ -157,6 +157,7 @@ hr {
     padding:-40px;
     
     background: #e1e9f4;
+    background-image: linear-gradient(to right, #fff, #e1e9f4, #fff);
     --R: calc(var(--s)*sqrt(var(--m)*var(--m) + 1) + var(--b)/2);
     height: calc(2*var(--R));
     width: 90%;
