@@ -265,8 +265,38 @@ rewards.</u>
      </p>
      <div class="w3-content w3-display-container" style="max-width:1000px">
         <video style="width: 100%" id="vid1" class="mySlides2" src="./resources/round_rm_visual_1.mov" autoplay muted playsinline></video>
+        <script>
+            var vid1 = document.getElementById('vid1');
+            vid1.addEventListener('ended', captureFrame);
+        
+            function captureFrame(e) {
+              var lastFrame = this.duration;
+              this.currentTime = lastFrame;
+              this.pause();
+            }
+          </script>
         <video style="width: 100%" id="vid1" class="mySlides2" src="./resources/round_rm_visual_2.mov" autoplay muted playsinline></video>
+        <script>
+            var vid1 = document.getElementById('vid1');
+            vid1.addEventListener('ended', captureFrame);
+        
+            function captureFrame(e) {
+              var lastFrame = this.duration;
+              this.currentTime = lastFrame;
+              this.pause();
+            }
+          </script>
         <video style="width: 100%" id="vid1" class="mySlides2" src="./resources/breadcan_rm_visual.mov" autoplay muted playsinline></video>
+        <script>
+            var vid1 = document.getElementById('vid1');
+            vid1.addEventListener('ended', captureFrame);
+        
+            function captureFrame(e) {
+              var lastFrame = this.duration;
+              this.currentTime = lastFrame;
+              this.pause();
+            }
+          </script>
         <br>
         <br>
         <br>
