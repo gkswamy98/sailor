@@ -29,29 +29,6 @@
 <script src="./static/js/index.js"></script>
 
 <!-- <link rel="stylesheet" href="https://www.w3schools.com/w3css/5/w3.css"> -->
-<style>
-.mySlides {display:none}
-.w3-left, .w3-right, .w3-badge {cursor:pointer}
-.w3-badge {height:13px;width:13px;padding:0}
-.w3-content,.w3-auto{margin-left:auto;margin-right:auto}.w3-content{max-width:980px}.w3-auto{max-width:1140px}
-.w3-container:after,.w3-container:before,.w3-panel:after,.w3-panel:before,.w3-row:after,.w3-row:before,.w3-row-padding:after,.w3-row-padding:before,
-.w3-container,.w3-panel{padding:0.01em 16px}.w3-panel{margin-top:16px;margin-bottom:16px}
-.w3-tooltip,.w3-display-container{position:relative}.w3-tooltip .w3-text{display:none}.w3-tooltip:hover .w3-text{display:inline-block}
-.w3-display-container:hover .w3-display-hover{display:block}.w3-display-container:hover span.w3-display-hover{display:inline-block}.w3-display-hover{display:none}
-.w3-bar{width:100%;overflow:hidden}.w3-center .w3-bar{display:inline-block;width:auto}
-.w3-bar-block.w3-center .w3-bar-item{text-align:center}.w3-block{display:block;width:100%}
-.w3-left-align{text-align:left!important}.w3-right-align{text-align:right!important}.w3-justify{text-align:justify!important}.w3-center{text-align:center!important}
-.w3-section,.w3-code{margin-top:16px!important;margin-bottom:16px!important}
-.w3-tiny{font-size:10px!important}.w3-small{font-size:12px!important}.w3-medium{font-size:15px!important}.w3-large{font-size:36px!important}
-.w3-text-white,.w3-hover-text-white:hover{color:#4072AF!important}
-.w3-display-bottommiddle{position:absolute;left:50%;bottom:0;transform:translate(-50%,0%);-ms-transform:translate(-50%,0%)}
-.w3-left{float:left!important}.w3-right{float:right!important}
-.w3-text-khaki,.w3-hover-text-khaki:hover{color:#4072AF!important}
-.w3-badge,.w3-tag{background-color:#000;color:#4072AF;display:inline-block;text-align:center}.w3-badge{border-radius:50%}
-.w3-border-0{border:0!important}.w3-border{border:1px solid #4072AF!important}
-.w3-transparent,.w3-hover-none:hover{background-color:transparent!important}
-.w3-white,.w3-hover-white:hover{color:#000!important;background-color:#4072AF!important}
-</style>
 
 
 
@@ -171,7 +148,7 @@
         Across a dozen visual manipulation tasks from three benchmarks, our approach
         $\texttt{SAILOR}$ consistently out-performs state-of-the-art Diffusion Policies trained via BC on
         the same data. Furthermore, scaling up the amount of demonstrations used for BC by 5-10$\times$
-        still leaves a performance gap. We find that $\texttt{SAILOR}$ can identify nuanced failures and
+        still leaves a performance gap. We also find that $\texttt{SAILOR}$ can identify nuanced failures and
         is robust to reward hacking. 
     </p>
 
@@ -193,7 +170,7 @@
      </p>
     $$ \Delta^{*}_{t:t+k} = \arg\max_{\Delta_{t:t+k}} \mathbb{E}_{z_t \sim \texttt{WM}(z_{t-1}, a_{t-1})}\left[\sum_{h=0}^{k-1} \gamma^h \texttt{RM}(z_{t+h}) +\gamma^k\texttt{V}(z_{t+k}) \bigg \vert o_t, a_{t:t+k} = a^{\textsf{base}}_{t:t+k} + \Delta_{t:t+k} \right].$$
     <p style="width: 80%;">
-        We then execute the first of these actions, $a^{\textsf{base}}_{t}+\Delta_{t}^{\star}$, in the environment before re-planning on top of the fresh observation $o_{t+1}$.
+        We then execute the first of these actions, $a^{\textsf{base}}_{t}+\Delta_{t}^{*}$, in the environment before re-planning on top of the fresh observation $o_{t+1}$.
         Observe that we can train all of these components from demonstrations alone, just like behavioral cloning. In short, $\texttt{SAILOR}$ <i>learns to search</i> without <i>any</i> additional human feedback (e.g. DAgger-style corrections) or ground-truth reward labels.
         It then searches at test-time to correct errors that the base policy would have made. One can then <i>distill</i> these corrected plans into the base policy.
     </p>
@@ -206,7 +183,7 @@
          without <i>any</i> additional demonstrations, DAgger-style corrections, or ground-truth reward labels. $\texttt{SAILOR}$ outperforms
          Diffusion Policies trained via behavioral cloning across all twelve tasks and three dataset scales considered.
     </p>
-      <div class="w3-content w3-display-container" style="max-width:800px">
+      <div class="w3-content w3-display-container" style="max-width:1000px">
         <video style="width: 100%" id="vid1" class="mySlides" src="./resources/door_comparison.mov" autoplay muted loop playsinline></video>
         <video style="width: 100%" id="vid1" class="mySlides" src="./resources/round_comparison.mov" autoplay muted loop playsinline></video>
         <video style="width: 100%" id="vid1" class="mySlides" src="./resources/breadcan_random_comparison.mov" autoplay muted loop playsinline></video>
@@ -269,12 +246,68 @@
         dots[slideIndex-1].className += " w3-white";
       }
       </script>
-
+    <p style="width: 80%;">
+        As seen above, we consistently find that $\texttt{SAILOR}$ is able to avoid mistakes that the base Diffusion Policy makes
+        by searching for self-corrections at test-time.
+        We like to think of $\texttt{SAILOR}$ as <i>a better recipe with the same ingedients</i> as behavioral cloning.
+     </p>
  
     <div class="wavy-line"></div>
 
 
     <h1>$\texttt{SAILOR}$ Can Identify And Recover from Nuanced Failures</h1>
+    <p style="width: 80%;">
+        We now explore qualitatively what our learned $\texttt{RM}$ is detecting and how robust $\texttt{SAILOR}$ is.
+        To do so, we roll out the base policy until it fails at the given task (purple line), reset the agent
+to a state where failure is not yet guaranteed, and let $\texttt{SAILOR}$ complete the rest of the episode (orange line).
+<u>The values plotted below are from our learned $\texttt{RM}$, which was trained without <i>any</i> ground-truth
+rewards.</u>
+     </p>
+     <div class="w3-content w3-display-container" style="max-width:1000px">
+        <video style="width: 100%" id="vid1" class="mySlides2" src="./resources/round_rm_visual_1.mov" autoplay muted playsinline></video>
+        <video style="width: 100%" id="vid1" class="mySlides2" src="./resources/round_rm_visual_2.mov" autoplay muted playsinline></video>
+        <video style="width: 100%" id="vid1" class="mySlides2" src="./resources/breadcan_rm_visual.mov" autoplay muted playsinline></video>
+        <br>
+        <br>
+        <br>
+        <div class="w3-center w3-container w3-section w3-large w3-text-white w3-display-bottommiddle" style="width:100%">
+          <div class="w3-left w3-hover-text-khaki" onclick="plusDivs2(-1)">&#10094;</div>
+          <div class="w3-right w3-hover-text-khaki" onclick="plusDivs2(1)">&#10095;</div>
+          <span class="w3-badge demo2 w3-border w3-transparent w3-hover-white" onclick="currentDiv2(1)"></span>
+          <span class="w3-badge demo2 w3-border w3-transparent w3-hover-white" onclick="currentDiv2(2)"></span>
+          <span class="w3-badge demo2 w3-border w3-transparent w3-hover-white" onclick="currentDiv2(3)"></span>
+
+        </div>
+      </div>
+      
+      <script>
+      var slideIndex2 = 1;
+      showDivs2(slideIndex2);
+      
+      function plusDivs2(n2) {
+        showDivs2(slideIndex2 += n2);
+      }
+      
+      function currentDiv2(n2) {
+        showDivs2(slideIndex2 = n2);
+      }
+      
+      function showDivs2(n2) {
+        var i2;
+        var x2 = document.getElementsByClassName("mySlides2");
+        var dots2 = document.getElementsByClassName("demo2");
+        if (n2 > x2.length) {slideIndex2 = 1}
+        if (n2 < 1) {slideIndex2= x2.length}
+        for (i = 0; i < x2.length; i++) {
+          x2[i].style.display = "none";  
+        }
+        for (i = 0; i < dots2.length; i++) {
+          dots2[i].className = dots2[i].className.replace(" w3-white", "");
+        }
+        x2[slideIndex2-1].style.display = "block";  
+        dots2[slideIndex2-1].className += " w3-white";
+      }
+      </script>
     <div class="wavy-line"></div>
 
 
