@@ -99,7 +99,7 @@
     <br><br>
 
     <div class="affiliation"><sup>👨‍✈️&nbsp;</sup>Equal Contribution</div>
-    <div class="affiliation"><sup>🛟&nbsp;</sup>Mila</div>
+    <div class="affiliation"><sup>🛟&nbsp;</sup>Mila-Quebec AI Institute,<br> University of Montreal</div>
     <div class="affiliation"><sup>🔱&nbsp;</sup>Carnegie Mellon University</div>
     <div class="affiliation"><sup>⚓&nbsp;</sup>Cornell University</div>
     
@@ -202,9 +202,8 @@
       }
       </script>
     <p style="width: 80%;">
-        As seen above, we consistently find that $\texttt{SAILOR}$ is able to avoid mistakes that the base Diffusion Policy makes
+        We see that $\texttt{SAILOR}$ is able to avoid mistakes that the base Diffusion Policy makes
         by searching for self-corrections at test-time.
-        We like to think of $\texttt{SAILOR}$ as <i>a better recipe with the same ingedients</i> as behavioral cloning.
      </p>
  
     <div class="wavy-line"></div>
@@ -248,8 +247,8 @@
     $$ \Delta^{*}_{t:t+k} = \arg\max_{\Delta_{t:t+k}} \mathbb{E}_{z_t \sim \texttt{WM}(z_{t-1}, a_{t-1})}\left[\sum_{h=0}^{k-1} \gamma^h \texttt{RM}(z_{t+h}) +\gamma^k\texttt{V}(z_{t+k}) \bigg \vert o_t, a_{t:t+k} = a^{\textsf{base}}_{t:t+k} + \Delta_{t:t+k} \right].$$
     <p style="width: 80%;">
         We then execute the first of these actions, $a^{\textsf{base}}_{t}+\Delta_{t}^{*}$, in the environment before re-planning on top of the fresh observation $o_{t+1}$.
-        Observe that we can train all of these components from demonstrations alone, just like behavioral cloning. In short, $\texttt{SAILOR}$ <i>learns to search</i> without <i>any</i> additional human feedback (e.g. DAgger-style corrections) or ground-truth reward labels.
-        It then searches at test-time to correct errors that the base policy would have made. One can then <i>distill</i> these corrected plans into the base policy.
+        In short, $\texttt{SAILOR}$ <i>learns to search</i> without <i>any</i> additional human feedback (e.g. DAgger-style corrections) or ground-truth reward labels.
+        It then searches at test-time to correct errors that the base policy would have made. One can then <i>distill</i> these corrected plans into the base policy in an <i>expert-iteration</i> style procedure.
     </p>
     <div class="wavy-line"></div>
 
@@ -263,39 +262,9 @@ to a state where failure is not yet guaranteed, and let $\texttt{SAILOR}$ comple
 rewards.</u>
      </p>
      <div class="w3-content w3-display-container" style="max-width:1000px">
-        <video style="width: 100%" id="vid1" class="mySlides2" src="./resources/round_rm_visual_1.mp4" autoplay muted playsinline></video>
-        <script>
-            var vid1 = document.getElementById('vid1');
-            vid1.addEventListener('ended', captureFrame);
-        
-            function captureFrame(e) {
-              var lastFrame = this.duration;
-              this.currentTime = lastFrame;
-              this.pause();
-            }
-          </script>
-        <video style="width: 100%" id="vid1" class="mySlides2" src="./resources/round_rm_visual_2.mp4" autoplay muted playsinline></video>
-        <script>
-            var vid1 = document.getElementById('vid1');
-            vid1.addEventListener('ended', captureFrame);
-        
-            function captureFrame(e) {
-              var lastFrame = this.duration;
-              this.currentTime = lastFrame;
-              this.pause();
-            }
-          </script>
-        <video style="width: 100%" id="vid1" class="mySlides2" src="./resources/breadcan_rm_visual.mp4" autoplay muted playsinline></video>
-        <script>
-            var vid1 = document.getElementById('vid1');
-            vid1.addEventListener('ended', captureFrame);
-        
-            function captureFrame(e) {
-              var lastFrame = this.duration;
-              this.currentTime = lastFrame;
-              this.pause();
-            }
-          </script>
+        <video style="width: 100%" id="vid1" class="mySlides2" src="./resources/round_rm_visual_1.mp4" autoplay muted loop playsinline></video>
+        <video style="width: 100%" id="vid1" class="mySlides2" src="./resources/round_rm_visual_2.mp4" autoplay muted loop playsinline></video>
+        <video style="width: 100%" id="vid1" class="mySlides2" src="./resources/breadcan_rm_visual.mp4" autoplay muted loop playsinline></video>
         <br>
         <br>
         <br>
@@ -401,15 +370,13 @@ rewards.</u>
     <div class="paper-info">
         <h3>A Smooth Sea Never Made a Skilled $\texttt{SAILOR}$: Robust Imitation via Learning to Search</h3>
         <p>Arnav Kumar Jain<sup>*</sup>, Vibhakar Mohta<sup>*</sup>, Subin Kim, Atiksh Bhardwaj, Juntao Ren, Yunhai Feng, Sanjiban Choudhury, and Gokul Swamy</p>
-        <pre><code>@misc{jain2025smoothseaskilledtextttsailor,
-            title={A Smooth Sea Never Made a Skilled $\texttt{SAILOR}$: Robust Imitation via Learning to Search}, 
+        <pre><code>@article{jain2025sailor,
+            title={A Smooth Sea Never Made a Skilled 𝚂𝙰𝙸𝙻𝙾𝚁: Robust Imitation via Learning to Search},
             author={Arnav Kumar Jain and Vibhakar Mohta and Subin Kim and Atiksh Bhardwaj and Juntao Ren and Yunhai Feng and Sanjiban Choudhury and Gokul Swamy},
-            year={2025},
-            eprint={2506.05294},
-            archivePrefix={arXiv},
-            primaryClass={cs.LG},
-            url={https://arxiv.org/abs/2506.05294}, 
-      }</code></pre>
+            journal={CoRR},
+            volume={abs/2506.05294},
+            year={2025}
+        }</code></pre>
     </div>
     <br>
     <div class="links"><a href="https://github.com/arnavkj1995/SAILOR"><span class="icon"><i class="fa-brands fa-github fa-2xl"></i></span><br>Code</a></div>
