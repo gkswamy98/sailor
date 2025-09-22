@@ -112,7 +112,7 @@
 
     <br>
     <br>
-    <h1>$\texttt{SAILOR}$ ⛵: Searching Across Imagined Latents Online for Recovery</h1>
+    <h1>SAILOR ⛵: Searching Across Imagined Latents Online for Recovery</h1>
 
     <video style="width: 90%" id="vid1" class="vid" src="./resources/sailor_method_cropped.mp4" playsinline muted autoplay ></video>
     <script>
@@ -126,16 +126,16 @@
         }
       </script>
     <p style="width: 82%; font-size: 20px;">
-      <br>TLDR: We introduce $\texttt{SAILOR}$, a method for <u><i>learning to search</i></u> from expert demonstrations. By
+      <br>TLDR: We introduce SAILOR, a method for <u><i>learning to search</i></u> from expert demonstrations. By
       learning world and reward models from demonstration data, we endow the agent
-      with the ability to, at test time, reason about how to recover from mistakes. <b>$\texttt{SAILOR}$ <i><u>consistently out-performs Diffusion Policies trained via behavioral cloning on 5-10x as much data.</u></i>
+      with the ability to, at test time, reason about how to recover from mistakes. <b>SAILOR <i><u>consistently out-performs Diffusion Policies trained via behavioral cloning on 5-10x as much data.</u></i>
     </p>
     <div class="wavy-line"></div>
 
-    <h1>$\texttt{SAILOR}$ Avoids Mistakes Without Additional Human Feedback</h1>
+    <h1>SAILOR Avoids Mistakes Without Additional Human Feedback</h1>
     <p style="width: 80%;">
-        Across a dozen complex visual manipulation tasks, we find that $\texttt{SAILOR}$ is able to avoid mistakes that the base Diffusion Policy makes
-         without <i>any</i> additional demonstrations, DAgger-style corrections, or ground-truth reward labels. $\texttt{SAILOR}$ outperforms
+        Across a dozen complex visual manipulation tasks, we find that SAILOR is able to avoid mistakes that the base Diffusion Policy makes
+         without <i>any</i> additional demonstrations, DAgger-style corrections, or ground-truth reward labels. SAILOR outperforms
          Diffusion Policies trained via behavioral cloning across all twelve tasks and three dataset scales considered.
     </p>
       <div class="w3-content w3-display-container" style="max-width:1000px">
@@ -202,7 +202,7 @@
       }
       </script>
     <p style="width: 80%;">
-        We see that $\texttt{SAILOR}$ is able to avoid mistakes that the base Diffusion Policy makes
+        We see that SAILOR is able to avoid mistakes that the base Diffusion Policy makes
         by searching for self-corrections at test-time.
      </p>
  
@@ -222,17 +222,17 @@
         and design decisions required to combine these and other components for stable and
         sample/interaction-efficient learning of recovery behavior without additional human corrections.
         Across a dozen visual manipulation tasks from three benchmarks, our approach
-        $\texttt{SAILOR}$ consistently out-performs state-of-the-art Diffusion Policies trained via BC on
+        SAILOR consistently out-performs state-of-the-art Diffusion Policies trained via BC on
         the same data. Furthermore, scaling up the amount of demonstrations used for BC by 5-10$\times$
-        still leaves a performance gap. We also find that $\texttt{SAILOR}$ can identify nuanced failures and
+        still leaves a performance gap. We also find that SAILOR can identify nuanced failures and
         is robust to reward hacking. 
     </p>
 
     <div class="wavy-line"></div>
 
-    <h1>$\texttt{SAILOR}$ Architecture: <i>Learning to Search</i></h1>
+    <h1>SAILOR Architecture: <i>Learning to Search</i></h1>
     <p style="width: 80%;">
-       The $\texttt{SAILOR}$ architecture consists of three key components:
+       The SAILOR architecture consists of three key components:
         <ul style="width: 80%; margin: auto; text-align: left;">
             <li>Base Policy $\pi^{\textsf{base}}$: An arbitrary base policy (e.g. a VLA) capable of producing multi-step plans. We use a Diffusion Policy in our experiments due to our focus on precise, long-horizon visual manipulation problems.</li>
             <li>World Model $\texttt{WM}$: A dynamics model capable of predicting future consequences -- we use the Dreamer architecture. Critically, the world model is trained on a mixture of demonstration data and base-policy rollouts, <a href="https://gokul.dev/hyper/">which gives our approach strong guarantees.</a> </li>
@@ -240,25 +240,25 @@
         </ul>
     </p>
     <p style="width: 80%;">
-        At test time, $\texttt{SAILOR}$ performs a local search around the base policy's $\pi^{\textsf{base}}$ nominal plan.
+        At test time, SAILOR performs a local search around the base policy's $\pi^{\textsf{base}}$ nominal plan.
         It performs this search inside the learned world model $\texttt{WM}$ and against the learned reward model $\texttt{RM}$.
         We use the Model-Predictive Path Integral (MPPI) algorithm to perform this search, before executing the first step of the plan, MPC style. More formally, we solve the following problem at each timestep:
      </p>
     $$ \Delta^{*}_{t:t+k} = \arg\max_{\Delta_{t:t+k}} \mathbb{E}_{z_t \sim \texttt{WM}(z_{t-1}, a_{t-1})}\left[\sum_{h=0}^{k-1} \gamma^h \texttt{RM}(z_{t+h}) +\gamma^k\texttt{V}(z_{t+k}) \bigg \vert o_t, a_{t:t+k} = a^{\textsf{base}}_{t:t+k} + \Delta_{t:t+k} \right].$$
     <p style="width: 80%;">
         We then execute the first of these actions, $a^{\textsf{base}}_{t}+\Delta_{t}^{*}$, in the environment before re-planning on top of the fresh observation $o_{t+1}$.
-        In short, $\texttt{SAILOR}$ <i>learns to search</i> without <i>any</i> additional human feedback (e.g. DAgger-style corrections) or ground-truth reward labels.
+        In short, SAILOR <i>learns to search</i> without <i>any</i> additional human feedback (e.g. DAgger-style corrections) or ground-truth reward labels.
         It then searches at test-time to correct errors that the base policy would have made. One can then <i>distill</i> these corrected plans into the base policy in an <i>expert-iteration</i> style procedure.
     </p>
     <div class="wavy-line"></div>
 
 
-    <h1>$\texttt{SAILOR}$ Can Identify And Recover from Nuanced Failures</h1>
+    <h1>SAILOR Can Identify And Recover from Nuanced Failures</h1>
     <p style="width: 80%;">
-        We now explore qualitatively what our learned $\texttt{RM}$ is detecting and how robust $\texttt{SAILOR}$ is.
+        We now explore qualitatively what our learned reward model is detecting and how robust SAILOR is.
         To do so, we roll out the base policy until it fails at the given task (purple line), reset the agent
-to a state where failure is not yet guaranteed, and let $\texttt{SAILOR}$ complete the rest of the episode (orange line).
-<u>The values plotted below are from our learned $\texttt{RM}$, which was trained without <i>any</i> ground-truth
+to a state where failure is not yet guaranteed, and let SAILOR complete the rest of the episode (orange line).
+<u>The values plotted below are from our learned reward model, which was trained without <i>any</i> ground-truth
 rewards.</u>
      </p>
      <div class="w3-content w3-display-container" style="max-width:1000px">
@@ -309,12 +309,12 @@ rewards.</u>
     <div class="wavy-line"></div>
 
 
-    <h1>$\texttt{SAILOR}$ Out-Performs Diffusion Policies Trained on 5-10x Data </h1>
+    <h1>SAILOR Out-Performs Diffusion Policies Trained on 5-10x Data </h1>
     <p style="width: 80%;">
         A natural question after viewing the preceding results might be as to whether more demonstrations could close the
-        performance gap between $\texttt{SAILOR}$ and Diffusion Policies. To answer this, we scale up the number of demonstrations
-        used for behavioral cloning by 5-10$\times$. We find that even with this significant increase in data, Diffusion Policies still do not match the performance of $\texttt{SAILOR}$.
-        While Diffusion Policies do improve with more data, we find that their performance plateaus before they match $\texttt{SAILOR}$'s performance.
+        performance gap between SAILOR and Diffusion Policies. To answer this, we scale up the number of demonstrations
+        used for behavioral cloning by 5-10$\times$. We find that even with this significant increase in data, Diffusion Policies still do not match the performance of SAILOR.
+        While Diffusion Policies do improve with more data, we find that their performance plateaus before they match SAILOR's performance.
     </p>
     <video style="width: 75%" id="vid1" class="vid" src="./resources/sailor_scaling.mp4" autoplay muted playsinline></video>
     <script>
@@ -328,20 +328,20 @@ rewards.</u>
       }
     </script>
     <p style="width: 80%;">
-        This reflects the fact that learning to search algorithms like $\texttt{SAILOR}$ are able to take advantage of <a href="https://arxiv.org/abs/2503.01067"><i>generation-verification gaps</i></a> for more sample-efficient learning as they learn reward models (i.e. <i>verifiers</i> ) in addition to policies (i.e. <i>generators</i> ).
+        This reflects the fact that learning to search algorithms like SAILOR are able to take advantage of <a href="https://arxiv.org/abs/2503.01067"><i>generation-verification gaps</i></a> for more sample-efficient learning as they learn reward models (i.e. <i>verifiers</i> ) in addition to policies (i.e. <i>generators</i> ).
     </p> 
     <div class="wavy-line"></div>
 
 
-    <h1>$\texttt{SAILOR}$ Scales Robustly at Test-Time </h1>
+    <h1>SAILOR Scales Robustly at Test-Time </h1>
     <p style="width: 80%;">
         A perennial concern with test-time scaling approaches is <i>reward hacking</i> -- the possibility that the agent
         optimizes the learned proxy reward to the point that it no longer correlates with the true task objective. To ablate
-        how robust $\texttt{SAILOR}$ is to reward hacking, we perform an experiment where we scale up the number of samples
+        how robust SAILOR is to reward hacking, we perform an experiment where we scale up the number of samples
         used for MPPI, which is analogous to scaling $N$ in Best-Of-N
         <ul style="width: 80%; margin: auto; text-align: left;">
             <li>Up to the number of samples used during training (2E8), we see more test-time compute lead to better performance.</li>
-            <li>Increasing the number of samples by 8x from the number seen during training does not degrade $\texttt{SAILOR}$'s performance.</li>
+            <li>Increasing the number of samples by 8x from the number seen during training does not degrade SAILOR's performance.</li>
           </ul> <br>
     </p>
     <video style="width: 85%" id="vid1" class="vid" src="./resources/sailor_tts.mp4" autoplay muted playsinline></video>
@@ -356,7 +356,7 @@ rewards.</u>
       }
     </script>
     <p style="width: 80%;">
-        Put together, these results tell us that an interesting direction for future work that builds on the $\texttt{SAILOR}$ stack is to <i>adaptively</i> allocate compute at test-time to reason about recovery behavior only when the base policy is likely to make a mistake.
+        Put together, these results tell us that an interesting direction for future work that builds on the SAILOR stack is to <i>adaptively</i> allocate compute at test-time to reason about recovery behavior only when the base policy is likely to make a mistake.
     </p> 
     <div class="wavy-line"></div>
 
@@ -368,7 +368,7 @@ rewards.</u>
         </a>
     </div>
     <div class="paper-info">
-        <h3>A Smooth Sea Never Made a Skilled $\texttt{SAILOR}$: Robust Imitation via Learning to Search</h3>
+        <h3>A Smooth Sea Never Made a Skilled SAILOR: Robust Imitation via Learning to Search</h3>
         <p>Arnav Kumar Jain<sup>*</sup>, Vibhakar Mohta<sup>*</sup>, Subin Kim, Atiksh Bhardwaj, Juntao Ren, Yunhai Feng, Sanjiban Choudhury, and Gokul Swamy</p>
         <pre><code>@article{jain2025sailor,
             title={A Smooth Sea Never Made a Skilled 𝚂𝙰𝙸𝙻𝙾𝚁: Robust Imitation via Learning to Search},
